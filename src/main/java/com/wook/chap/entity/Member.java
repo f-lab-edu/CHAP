@@ -15,11 +15,14 @@ public class Member extends TimeEntity{
     @Column(name="member_id")
     private Long id;
 
+    @Column(name="memberName", unique = true)
     private String name;
 
     private String email;
 
     private String password;
+
+    private String nickname;
 
 
 
