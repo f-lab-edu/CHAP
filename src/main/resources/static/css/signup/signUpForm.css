@@ -1,0 +1,20 @@
+.field-error {
+    border-color: #dc3545;
+    border-width: thick;
+    color: #dc3545;
+    font-weight: 900;
+}
+
+.field-error-global {
+    border-color: #dc3545;
+    border-width: thick;
+    color: #dc3545;
+    font-weight: 900;
+    font-size: x-large;
+}
+
+.field-error-input {
+    border-color: #dc3545;
+    border-width: thick;
+
+}
