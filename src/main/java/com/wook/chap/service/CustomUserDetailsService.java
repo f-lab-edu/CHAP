@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String memberName) throws UsernameNotFoundException {
-        return memberRepository.findByMemberName(memberName)
+        return memberRepository.findByName(memberName)
                 .map(member -> createUser(memberName, member))
                 .orElseThrow(() -> {
                     log.debug("DB에 {} 이 없습니다.",memberName);

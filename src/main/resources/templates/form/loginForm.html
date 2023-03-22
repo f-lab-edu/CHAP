@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="loginForm/style.css" th:href="@{/css/loginForm.css}">
 
 </head>
 <body class="img js-fullheight" style="background-image: url(/images/bg.jpg);">
@@ -33,12 +34,20 @@
             <div class="col-md-6 col-lg-4">
                 <div class="login-wrap p-0">
                     <h3 class="mb-4 text-center">회원이신가요?</h3>
-                    <form action="#" class="signin-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="아이디를 입력해주세요" required>
+                    <form action="#" th:action th:object="${loginForm}" class="signin-form" method="post">
+
+                        <div th:if="${#fields.hasGlobalErrors()}">
+                            <p class="field-error" th:each="err :${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
                         </div>
                         <div class="form-group">
-                            <input id="password-field" type="password" class="form-control" placeholder="비밀번호를 입력해주세요" required>
+                            <input type="text" th:field="*{membername}"
+                                   th:errorclass="field-error" class="form-control" placeholder="아이디를 입력해주세요">
+                            <div class="field-error" th:errors="*{membername}">아이디 오류</div>
+                        </div>
+                        <div class="form-group">
+                            <input id="password-field" th:field="*{password}"
+                                   th:errorclass="field-error" type="password" class="form-control" placeholder="비밀번호를 입력해주세요">
+                            <div class="field-error" th:errors="*{password}">비밀번호 오류</div>
                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
@@ -58,7 +67,7 @@
                     </form>
                     <p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
                     <div class="social d-flex text-center">
-                        <a href="#" th:href="@{/login}" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> 회원가입하기</a>
+                        <a href="#" th:href="@{/templates/form}" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> 회원가입하기</a>
                     </div>
                 </div>
             </div>

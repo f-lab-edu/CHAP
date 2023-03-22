@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Slf4j
 public class JwtFilter extends GenericFilterBean {
@@ -26,7 +27,9 @@ public class JwtFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        log.debug("Filter 처리 --------------------------------------------");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        Arrays.stream(httpServletRequest.getCookies()).forEach(cookie -> {log.debug("쿠키 종류 : {}",cookie.getValue());});
         String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
@@ -43,9 +46,12 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        String bearerToken = null;
+        if (request.getCookies() != null)
+            bearerToken = Arrays.stream(request.getCookies()).filter((cookie -> cookie.getName().equals(AUTHORIZATION_HEADER)))
+                    .findFirst().map(cookie -> cookie.getValue()).orElse(null);
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer+")) {
             return bearerToken.substring(7);
         }
 

@@ -15,7 +15,7 @@ public class Member extends TimeEntity{
     @Column(name="member_id")
     private Long id;
 
-    @Column(name="memberName", unique = true)
+    @Column(unique = true)
     private String name;
 
     private String email;
@@ -24,6 +24,10 @@ public class Member extends TimeEntity{
 
     private String nickname;
 
-
-
+    public Member(String name, String email, String password, String nickname) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+    }
 }

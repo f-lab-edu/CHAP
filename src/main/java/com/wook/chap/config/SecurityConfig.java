@@ -1,9 +1,12 @@
 package com.wook.chap.config;
 
 import com.wook.chap.jwt.*;
+import com.wook.chap.service.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -14,7 +17,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+
+    private final CustomUserDetailsService service;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, TokenProvider tokenProvider,
@@ -39,7 +47,7 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers(HttpMethod.GET, "/login", "/signUp").permitAll()
+                .antMatchers("/","/login", "/signUp").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
@@ -70,5 +78,14 @@ public class SecurityConfig {
                     "/images/**"
             );
         };
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
+        daoAuthenticationProvider.setUserDetailsService(service);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
     }
 }
