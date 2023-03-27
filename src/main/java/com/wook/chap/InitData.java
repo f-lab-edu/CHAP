@@ -35,8 +35,9 @@ public class InitData {
 
         @Transactional
         public void init() {
-            Member member1 = new Member("ktf1686", "rlarkddnr1686@naver.com","$2a$10$TWFVsOUS3sqTO1Jf9uo9EuE.jJV6N5WMopUURX/vIPPhRX7OO0ECy","강욱");
-            Member member2 = new Member("skt2684", "rlarkddnr1686@daum.net","$2a$10$TWFVsOUS3sqTO1Jf9uo9EuE.jJV6N5WMopUURX/vIPPhRX7OO0ECy","욱강");
+            // 비번 qwer1234!
+            Member member1 = new Member("ktf1686", "rlarkddnr1686@naver.com","$2a$10$1ZenE74j0gH/2bIbACBVhuVl9xFTy8dxK25I8Fi4nLd/I0puS9i4y","강욱");
+            Member member2 = new Member("skt2684", "rlarkddnr1686@daum.net","$2a$10$1ZenE74j0gH/2bIbACBVhuVl9xFTy8dxK25I8Fi4nLd/I0puS9i4y","욱강");
 
             em.persist(member1);
             em.persist(member2);

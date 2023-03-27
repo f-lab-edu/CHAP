@@ -63,6 +63,7 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
 
+
         // Random한 Salt 값을 받아서 같이 hashing을 이용하는 BCryptPasswordEncoder 사용
         return new BCryptPasswordEncoder();
     }

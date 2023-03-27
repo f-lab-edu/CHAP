@@ -68,14 +68,28 @@
 </section>
 
 <!-- JS -->
-<script src="../../static/js/bootstrap.min.js"></script>
-<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="../../static/css/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js" ></script>
 <script th:inline="javascript">
 
-    $(document).ready((function() {
+
+    (function($) {
+
+        "use strict";
+
+        var fullHeight = function() {
+
+            $('.js-fullheight').css('height', $(window).height());
+            $(window).resize(function(){
+                $('.js-fullheight').css('height', $(window).height());
+            });
+
+        };
+        fullHeight();
+
         $(".toggle-password").click(function() {
 
-            $(this).toggleClass("zmdi-eye zmdi-eye-off");
+            $(this).toggleClass("fa-eye fa-eye-slash");
             var input = $($(this).attr("toggle"));
             if (input.attr("type") == "password") {
                 input.attr("type", "text");
@@ -83,7 +97,8 @@
                 input.attr("type", "password");
             }
         });
-    }));
+
+    })(jQuery);
 </script>
 </body>
 
