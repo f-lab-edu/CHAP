@@ -13,8 +13,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Slf4j
 public class SignUpForm {
 
