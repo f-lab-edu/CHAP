@@ -4,15 +4,20 @@ import com.wook.chap.domain.repository.MemberRepository;
 import com.wook.chap.domain.repository.UrlRepository;
 import com.wook.chap.entity.Member;
 import com.wook.chap.entity.Url;
+import com.wook.chap.exception.NotFoundUrlException;
 import com.wook.chap.web.utils.UrlConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class UrlService {
 
     private final UrlConverter urlConverter;
@@ -34,6 +39,17 @@ public class UrlService {
 
         urlRepository.save(url);
         return shortUrl;
+    }
+
+    public String returnOriginalUrl(String shortsUrl) {
+        try {
+            Url url = urlRepository.findByShortsUrl(shortsUrl).orElseThrow();
+            return url.getOriginalURL();
+        } catch (NoSuchElementException ne) {
+            log.debug("NotFoundUrlException 발생");
+            throw new NotFoundUrlException("해당 URL을 찾지 못하였습니다.");
+        }
+
     }
 
 }

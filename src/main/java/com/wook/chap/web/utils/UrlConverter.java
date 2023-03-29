@@ -14,8 +14,8 @@ public class UrlConverter {
 
 
     public String longToShort() {
-        String shorturl = base10ToBase62(COUNTER.getAndIncrement());
-        return  shorturl;
+        String shortUrl = base10ToBase62(COUNTER.getAndIncrement());
+        return  shortUrl;
     }
 
     private String base10ToBase62(long n) {
