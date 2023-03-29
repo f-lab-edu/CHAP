@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest
-class URLInspectorTest {
+class UrlInspectorTest {
 
     @Autowired
-    private URLInspector urlInspector;
+    private UrlInspector urlInspector;
 
 
     @Test

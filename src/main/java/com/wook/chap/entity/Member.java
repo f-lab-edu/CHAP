@@ -28,6 +28,7 @@ public class Member extends TimeEntity{
 
     private String nickname;
 
+
     public Member(String name, String email, String password, String nickname) {
         this.name = name;
         this.email = email;

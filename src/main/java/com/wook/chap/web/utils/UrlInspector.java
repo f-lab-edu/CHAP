@@ -9,7 +9,7 @@ import java.net.*;
 
 @Component
 @Slf4j
-public class URLInspector {
+public class UrlInspector {
 
     /**
      * URL 형식 검사와 URL 상태 코드 검사로 분류
@@ -40,6 +40,7 @@ public class URLInspector {
         URL requestURL = this.url.get();
         try {
             HttpsURLConnection con = (HttpsURLConnection) requestURL.openConnection();
+            //현재 노트북의 User-Agent 정보 세팅
             con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36");
             HttpURLConnection exitCode = (HttpURLConnection) con;
             log.debug("ResponseCode : {}", exitCode.getResponseCode());
