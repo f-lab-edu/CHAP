@@ -34,7 +34,7 @@ public class UrlService {
                 .member(member)
                 .shortURL(shortUrl)
                 .originalURL(requestUrl)
-                .clickCnt(0)
+                .clickCount(0)
                 .build();
 
         urlRepository.save(url);

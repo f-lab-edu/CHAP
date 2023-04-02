@@ -1,19 +1,19 @@
 package com.wook.chap.web.controller;
 
+import com.wook.chap.dto.UrlDto;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class HomeController {
 
     @GetMapping("/")
-    public String home() {
-        return "home";
+    public String home(Model model) {
+        UrlDto urlDto = new UrlDto();
+        model.addAttribute("urlDto", urlDto);
+        return "registerUrl";
     }
-
-    @GetMapping("/test")
-    public String test() {
-        return "test";}
 
 
 }

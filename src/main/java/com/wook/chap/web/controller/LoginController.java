@@ -33,14 +33,14 @@ public class LoginController {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    @GetMapping("/login")
+    @GetMapping("/login/authenticate")
     public String loginPage(Model model) {
         LoginForm loginForm = new LoginForm();
         model.addAttribute("loginForm", loginForm);
         return "/form/loginForm";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login/authenticate")
     public String authorize(@Valid @ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult,
                             HttpServletResponse response) throws UnsupportedEncodingException {
 

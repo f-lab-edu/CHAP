@@ -17,7 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class
+SecurityConfig {
 
 
     private final CustomUserDetailsService service;
@@ -46,7 +47,7 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/","/login", "/signUp").permitAll()
+                .antMatchers("/login/authenticate", "/signUp","/??????").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

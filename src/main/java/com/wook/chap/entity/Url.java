@@ -23,17 +23,14 @@ public class Url extends TimeEntity {
     @Column(name="shorts_url", unique = true)
     private String shortURL;
 
-    @Column(name="original_url")
+    @Column(name="original_url",length = 2048)
     private String originalURL;
 
-    @Column(name="click_cnt")
-    private int clickCnt;
+    @Column(name="click_count")
+    private int clickCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-
-
 
 }

@@ -42,8 +42,16 @@ public class UrlInspector {
             HttpsURLConnection con = (HttpsURLConnection) requestURL.openConnection();
             //현재 노트북의 User-Agent 정보 세팅
             con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36");
+            con.setRequestProperty("referer", requestURL.getProtocol()+"://"+requestURL.getHost()+"/");
+            con.setDoOutput(true);
             HttpURLConnection exitCode = (HttpURLConnection) con;
+
+            log.debug("ResponseCode RequestProperties : {}", exitCode.getRequestProperties());
             log.debug("ResponseCode : {}", exitCode.getResponseCode());
+            log.debug("ResponseCode Permission : {}", exitCode.getPermission());
+            log.debug("ResponseCode ResponseMessage : {}", exitCode.getResponseMessage());
+            log.debug("ResponseCode RequestMethod : {}", exitCode.getRequestMethod());
+
             if (!(exitCode.getResponseCode() >= 200 && exitCode.getResponseCode() < 300)) {
                 log.debug("상태 코드 이상");
                 return false;

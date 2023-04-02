@@ -1,6 +1,7 @@
 package com.wook.chap.web.controller;
 
 import com.wook.chap.domain.service.UrlService;
+import com.wook.chap.dto.UrlDto;
 import com.wook.chap.exception.NotValidUrlException;
 import com.wook.chap.web.utils.UrlInspector;
 import lombok.RequiredArgsConstructor;
@@ -8,11 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.regex.Pattern;
 
@@ -31,26 +35,31 @@ public class UrlController {
 
 
 
-    @PostMapping("/uri")
-    public String urlInspection(String requestURI, Principal principal, Model model, @Value("${domain-name}") String domain) {
+    @PostMapping("/uri/inspection")
+    public String urlInspection(@ModelAttribute @Valid UrlDto urlDto, BindingResult bindingResult,
+                                Principal principal, Model model, @Value("${domain-name}") String domain) {
         Long loginMemberId = Long.parseLong(principal.getName());
+        String requestURI = urlDto.getRequestURI();
         log.debug("현재 변환하고 싶은 Original URI : {}",requestURI);
         log.debug("현재 로그인한 멤버 ID : {}",loginMemberId);
 
         if (urlInspector.urlValidator(requestURI)) {
             String shortUrl = urlService.convertUrlAndSave(requestURI, loginMemberId);
-            model.addAttribute("shortUrl", domain+shortUrl);
-            return "redirect:/";
+            String url = domain + shortUrl;
+            model.addAttribute("shortUrl", url);
+            return "registerUrl";
         }
 
-        model.addAttribute("invalidUrl", true);
+        bindingResult.rejectValue("requestURI","invalid.url");
 
-        return "redirect:/";
+        return "registerUrl";
     }
 
-    @GetMapping("/{shortsUrl}")
+    @GetMapping(value = "/{shortsUrl}")
     public RedirectView redirectUrl(@PathVariable("shortsUrl") String shortsUrl) {
         if (!Pattern.matches(pattern,shortsUrl)) {
+            log.debug("shortsUrl : {}",shortsUrl);
+            log.debug("Shorts URL의 형식이 잘못되었습니다.");
             throw new NotValidUrlException("Shorts URL의 형식이 잘못되었습니다.");
         }
 

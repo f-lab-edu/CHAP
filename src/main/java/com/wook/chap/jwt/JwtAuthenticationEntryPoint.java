@@ -29,6 +29,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         cookie.setPath("/");
 
         response.addCookie(cookie);
-        response.sendRedirect("/login");
+        response.sendRedirect("/login/authenticate");
     }
 }
