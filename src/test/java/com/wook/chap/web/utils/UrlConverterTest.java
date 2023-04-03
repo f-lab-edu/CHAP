@@ -1,6 +1,6 @@
 package com.wook.chap.web.utils;
 
-import org.assertj.core.api.Assertions;
+import com.wook.chap.utils.UrlConverter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

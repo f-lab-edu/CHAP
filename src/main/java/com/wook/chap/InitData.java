@@ -1,11 +1,10 @@
 package com.wook.chap;
 
-import com.wook.chap.entity.Member;
-import com.wook.chap.entity.MemberAuthority;
-import com.wook.chap.enums.Authority;
+import com.wook.chap.model.entity.Member;
+import com.wook.chap.model.entity.MemberAuthority;
+import com.wook.chap.model.enums.Authority;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

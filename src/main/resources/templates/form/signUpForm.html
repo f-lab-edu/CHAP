@@ -12,7 +12,7 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="../../static/css/signup/style.css" th:href="@{/css/signup/style.css}">
-    <link rel="stylesheet" href="loginForm/style.css" th:href="@{/css/signup/signUpForm.css}">
+    <link rel="stylesheet" href="loginDto/style.css" th:href="@{/css/signup/signUpDto.css}">
     <link rel="icon" href="data:,">
 </head>
 <body>
@@ -24,7 +24,7 @@
             <body class="img js-fullheight" style="background-image: url(/images/signup-bg.jpg);">
             <div class="container">
                 <div class="signup-content">
-                    <form method="POST" th:action th:object="${signUpForm}" id="signup-form" class="signup-form">
+                    <form method="POST" th:action th:object="${signUpDto}" id="signup-form" class="signup-form">
                         <h2 class="form-title">Create account</h2>
                         <div th:if="${#fields.hasGlobalErrors()}">
                             <p class="field-error-global" th:each="err :${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>

@@ -1,9 +1,8 @@
 package com.wook.chap.domain.service;
 
 import com.wook.chap.domain.repository.UrlRepository;
-import com.wook.chap.entity.Member;
-import com.wook.chap.entity.Url;
-import io.jsonwebtoken.lang.Assert;
+import com.wook.chap.model.entity.Url;
+import com.wook.chap.service.UrlService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
