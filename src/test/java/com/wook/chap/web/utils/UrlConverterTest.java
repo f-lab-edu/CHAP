@@ -19,13 +19,16 @@ class UrlConverterTest {
         String shortUrl1 = converter.longToShort();
         String shortUrl2 = converter.longToShort();
         String shortUrl3 = converter.longToShort();
+
+
         char char1 = shortUrl1.charAt(5);
-        char char2 = shortUrl1.charAt(5);
-        char char3 = shortUrl1.charAt(5);
+        char char2 = shortUrl2.charAt(5);
+        char char3 = shortUrl3.charAt(5);
 
         assertThat(shortUrl1.length()).isEqualTo(6);
         assertThat(shortUrl2.length()).isEqualTo(6);
         assertThat(shortUrl3.length()).isEqualTo(6);
+
         assertThat(char2-char1).isEqualTo(1);
         assertThat(char3-char1).isEqualTo(2);
         assertThat(char3-char2).isEqualTo(1);

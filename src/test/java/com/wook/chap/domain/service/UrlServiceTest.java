@@ -1,7 +1,7 @@
 package com.wook.chap.domain.service;
 
-import com.wook.chap.domain.repository.UrlRepository;
 import com.wook.chap.model.entity.Url;
+import com.wook.chap.repository.UrlRepository;
 import com.wook.chap.service.UrlService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
