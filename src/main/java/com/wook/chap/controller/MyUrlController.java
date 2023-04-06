@@ -18,30 +18,22 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class MyUrlController {
 
-    private UrlService urlService;
+
+    private final UrlService urlService;
 
 
 
     @GetMapping("/myUrl")
-    public String myUrl() {
-
-        return "myUrl";
-    }
-
-    @GetMapping
-    public String getPagingByCondition(@ModelAttribute SearchConditionDto searchCondition,
-                                       BindingResult bindingResult,
-                                       @ModelAttribute PageRequestDto pageRequest,
+    public String getPagingByCondition(@ModelAttribute("searchCondition") SearchConditionDto searchCondition,
+                                       @ModelAttribute("pageRequest") PageRequestDto pageRequest,
                                        Principal principal,
                                        Model model) {
 
         if (!searchCondition.isValidTime()) {
-            bindingResult.reject("invalid.time");
-        }
-
-        if (bindingResult.hasErrors()) {
+            model.addAttribute("isInvalidTime",true);
             return "myUrl";
         }
+
 
         Long loginMemberId = Long.parseLong(principal.getName());
         Pageable pageable = PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(), pageRequest.getIsAsc() == 1

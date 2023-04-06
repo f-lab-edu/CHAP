@@ -1,11 +1,14 @@
 package com.wook.chap.model.dto;
 
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
+import static org.springframework.util.StringUtils.*;
 
 @Data
 public class SearchConditionInfo {
@@ -24,7 +27,7 @@ public class SearchConditionInfo {
 
     public LocalDateTime formDateToLocalDateTime(String date) {
 
-        if (date==null) {
+        if (!hasText(date)) {
             return null;
         }
 
