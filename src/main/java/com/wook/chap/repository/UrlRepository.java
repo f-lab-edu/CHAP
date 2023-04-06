@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface UrlRepository extends JpaRepository<Url, Long> {
+public interface UrlRepository extends JpaRepository<Url, Long>,UrlRepositoryCustom {
 
     @Query("select u from Url u where u.shortURL=:shortsUrl")
     Optional<Url> findByShortsUrl(@Param("shortsUrl")String shortsUrl);

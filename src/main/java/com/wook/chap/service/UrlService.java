@@ -1,5 +1,9 @@
 package com.wook.chap.service;
 
+import com.wook.chap.model.dto.SearchConditionInfo;
+import com.wook.chap.model.dto.UrlInfo;
+import com.wook.chap.model.dto.PageResultDto;
+import com.wook.chap.model.dto.SearchConditionDto;
 import com.wook.chap.model.entity.Member;
 import com.wook.chap.model.entity.Url;
 import com.wook.chap.exception.NotFoundUrlException;
@@ -8,6 +12,8 @@ import com.wook.chap.repository.UrlRepository;
 import com.wook.chap.utils.UrlConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -49,6 +55,13 @@ public class UrlService {
             throw new NotFoundUrlException("해당 URL을 찾지 못하였습니다.");
         }
 
+    }
+
+    public PageResultDto<UrlInfo> pagingMyUrl(Long memberId, SearchConditionInfo searchCondition, Pageable pageable) {
+        Page<UrlInfo> urlInfoPage = urlRepository.searchPage(memberId, searchCondition, pageable);
+
+
+        return new PageResultDto<>(urlInfoPage);
     }
 
 }
