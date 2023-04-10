@@ -49,6 +49,7 @@ public class UrlService {
     public String returnOriginalUrl(String shortsUrl) {
         try {
             Url url = urlRepository.findByShortsUrl(shortsUrl).orElseThrow();
+            url.plusClickCount();
             return url.getOriginalURL();
         } catch (NoSuchElementException ne) {
             log.debug("NotFoundUrlException 발생");
@@ -64,4 +65,10 @@ public class UrlService {
         return new PageResultDto<>(urlInfoPage);
     }
 
+    public boolean isMyUrl(Long loginMemberId,Long urlId) {
+        Url url = urlRepository.isMyUrl(loginMemberId, urlId).orElse(null);
+        if (url==null) return false;
+        urlRepository.delete(url);
+        return true;
+    }
 }

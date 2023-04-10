@@ -63,11 +63,15 @@ public class UrlController {
             throw new NotValidUrlException("Shorts URL의 형식이 잘못되었습니다.");
         }
 
+
+
         String originalUrl = urlService.returnOriginalUrl(shortsUrl);
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(originalUrl);
         return redirectView;
     }
+
+
 
 
 

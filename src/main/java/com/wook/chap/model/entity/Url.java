@@ -33,4 +33,8 @@ public class Url extends TimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public void plusClickCount() {
+        clickCount++;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.wook.chap.repository;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,6 +11,7 @@ import com.wook.chap.model.dto.UrlInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -44,6 +47,7 @@ public class UrlRepositoryImpl implements UrlRepositoryCustom{
                         dateLoe(searchCondition.getEndDate()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(urlInfoSort(pageable))
                 .fetch();
 
         Long total = queryFactory.select(url.count()).from(url)
@@ -66,5 +70,23 @@ public class UrlRepositoryImpl implements UrlRepositoryCustom{
 
     private BooleanExpression dateLoe(LocalDateTime endTime) {
         return endTime==null ? null : url.createTime.loe(endTime);
+    }
+
+    private OrderSpecifier<?> urlInfoSort(Pageable pageable) {
+
+        Sort sort = pageable.getSort();
+
+        if (!sort.isEmpty()) {
+            for (Sort.Order order : sort) {
+                Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
+
+                switch (order.getProperty()) {
+                    case "createdTime":
+                        return new OrderSpecifier<>(direction, url.createTime);
+                }
+            }
+        }
+
+        return null;
     }
 }

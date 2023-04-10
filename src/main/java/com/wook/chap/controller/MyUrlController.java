@@ -6,15 +6,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
 @Controller
+@RequestMapping("myUrl")
 @RequiredArgsConstructor
 public class MyUrlController {
 
@@ -23,7 +23,7 @@ public class MyUrlController {
 
 
 
-    @GetMapping("/myUrl")
+    @GetMapping
     public String getPagingByCondition(@ModelAttribute("searchCondition") SearchConditionDto searchCondition,
                                        @ModelAttribute("pageRequest") PageRequestDto pageRequest,
                                        Principal principal,
@@ -49,5 +49,20 @@ public class MyUrlController {
 
     }
 
+    @PostMapping("/delete/{urlId}")
+    @ResponseBody
+    public ResponseEntity<?> deleteUrl(@PathVariable("urlId") Long urlId,
+                                       Principal principal) {
+
+        Long loginMemberId = Long.parseLong(principal.getName());
+
+        if (!urlService.isMyUrl(loginMemberId, urlId)) {
+            return ResponseEntity.badRequest().body("해당 URL가 존재하지 않습니다.");
+        }
+
+        return ResponseEntity.status(302).build();
+
+
+    }
 
 }

@@ -38,7 +38,7 @@ public class PageResultDto<DTO> {
 
     private List<Integer> pageList;
 
-    private boolean isNotEmpty() {
+    public boolean isNotEmpty() {
         return !this.dtoList.isEmpty();
     }
 
