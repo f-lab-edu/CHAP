@@ -4,27 +4,47 @@ import com.wook.chap.model.entity.Member;
 import com.wook.chap.model.entity.MemberAuthority;
 import com.wook.chap.model.entity.Url;
 import com.wook.chap.model.enums.Authority;
+import com.wook.chap.service.MemberService;
+import com.wook.chap.service.UrlService;
 import com.wook.chap.utils.UrlConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Profile("local")
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class InitData {
 
     private final InitService initService;
 
+    private final DestroyService destroyService;
+
+
+
     @PostConstruct
     public void init() {
         initService.init();
+    }
+
+    @PreDestroy
+    public void destory() {
+        destroyService.destroy();
     }
 
 
@@ -37,12 +57,16 @@ public class InitData {
         @Autowired
         private UrlConverter urlConverter;
 
+        private static List<Member> members = new ArrayList<>();
+        private static List<MemberAuthority> memberAuthorities = new ArrayList<>();
+        private static List<Url> urls = new ArrayList<>();
+
 
         @Transactional
         public void init() {
             // 비번 qwer1234!
-            Member member1 = new Member("ktf1686", "rlarkddnr1686@naver.com","$2a$10$1ZenE74j0gH/2bIbACBVhuVl9xFTy8dxK25I8Fi4nLd/I0puS9i4y","강욱");
-            Member member2 = new Member("skt2684", "rlarkddnr1686@daum.net","$2a$10$1ZenE74j0gH/2bIbACBVhuVl9xFTy8dxK25I8Fi4nLd/I0puS9i4y","욱강");
+            Member member1 = new Member("ktf1686", "rlarkddnr1686@naver.com", "$2a$10$1ZenE74j0gH/2bIbACBVhuVl9xFTy8dxK25I8Fi4nLd/I0puS9i4y", "강욱");
+            Member member2 = new Member("skt2684", "rlarkddnr1686@daum.net", "$2a$10$1ZenE74j0gH/2bIbACBVhuVl9xFTy8dxK25I8Fi4nLd/I0puS9i4y", "욱강");
 
             em.persist(member1);
             em.persist(member2);
@@ -218,13 +242,55 @@ public class InitData {
 
             em.flush();
 
+            members.add(member1);
+            members.add(member2);
 
+            memberAuthorities.add(authority1);
+            memberAuthorities.add(authority2);
 
+            urls.add(url1);
+            urls.add(url2);
+            urls.add(url3);
+            urls.add(url4);
+            urls.add(url5);
+            urls.add(url6);
+            urls.add(url7);
+            urls.add(url8);
+            urls.add(url9);
+            urls.add(url10);
+            urls.add(url11);
+            urls.add(url12);
+            urls.add(url13);
+            urls.add(url14);
+            urls.add(url15);
+            urls.add(url16);
+            urls.add(url17);
+            urls.add(url18);
+            urls.add(url19);
+            urls.add(url20);
         }
 
     }
 
+    @Component
+    static class DestroyService {
 
+        @Autowired
+        MemberService memberService;
+
+        @Autowired
+        UrlService urlService;
+
+        @Transactional
+        void destroy() {
+            log.debug("destroy 작업 시작");
+            InitService.urls.forEach(entity->urlService.deleteUrlById(entity.getId()));
+            InitService.memberAuthorities.forEach(entity->memberService.deleteMemberAuthorityById(entity.getId()));
+            InitService.members.forEach(entity->memberService.deleteMemberById(entity.getId()));
+            log.debug("destroy 작업 종료");
+        }
+
+    }
 
 
 }

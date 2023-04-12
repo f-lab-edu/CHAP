@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -24,7 +25,7 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
+
     public Member signUp(SignUpDto signUpDto) {
         memberRepository.findByName(signUpDto.getMembername())
                 .ifPresent(member -> {
@@ -45,5 +46,13 @@ public class MemberService {
 
         return member;
 
+    }
+
+    public void deleteMemberById(Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
+
+    public void deleteMemberAuthorityById(Long authorityId) {
+        memberAuthorityRepository.deleteById(authorityId);
     }
 }

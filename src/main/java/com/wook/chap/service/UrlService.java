@@ -71,4 +71,8 @@ public class UrlService {
         urlRepository.delete(url);
         return true;
     }
+
+    public void deleteUrlById(Long urlId) {
+        urlRepository.deleteById(urlId);
+    }
 }
