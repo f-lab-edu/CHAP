@@ -106,7 +106,6 @@
                                     <th scope="col">생성날짜</th>
                                     <th scope="col">본래 URL 주소</th>
                                     <th scope="col">단축 URL 주소</th>
-                                    <th scope="col">메타 데이터</th>
                                     <th scope="col">조회수</th>
                                     <th scope="col">편집</th>
                                 </tr>
@@ -120,7 +119,6 @@
                                     <td><a th:href="@{/{shortsUrl} (shortsUrl=${urlInfo.shortsUrl})}"
                                            style="color: black">[[${@environment.getProperty('domain-name')}]][[${urlInfo.shortsUrl}]]</a>
                                     </td>
-                                    <td th:text="${urlInfo.clickCount}"></td>
                                     <td th:text="${urlInfo.clickCount}"></td>
                                     <td>
                                         <button class="btn btn-outline-danger btn-sm rounded-pill"
