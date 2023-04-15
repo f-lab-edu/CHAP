@@ -1,0 +1,41 @@
+# local 설정
+spring:
+  messages:
+    basename: errors
+  config:
+    activate:
+      on-profile: local
+  #Live Reload 기능 활성화
+  devtools:
+    livereload:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/chap
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ENC(Kk0m2jaSQ5gapZeIUFXDGQ==)
+    password: ENC(v+LCsxD/DfB8fUS7l6QV3Q==)
+
+jwt:
+  header: Authorization
+  secret: ENC(2YLGTmWV3joqknjXPmvgONUJGnOZrL9QP7vWZEWHcWSHOlykbItZwv29opxCS4fjUcvuoo7MJqIf1MfVzOAxV39AP5rkoSlQtb4zZC676ZhNnYzXDyo0SEESHq7Ht1vJghjp1YipxAmFk3Er65ns9W+UZUR7OaY+BH0jdj7VgE4=)
+
+  token-validity-in-seconds: 90000 #900 #15분
+
+domain-name: http://localhost:8080/
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type: trace
+    com.wook.chap: debug
+
+
