@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>단축 URL 생성</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" href="../static/css/registerUrl/registerUrl.css"
+          th:href="@{/css/registerUrl/registerUrl.css}">
+    <!-- Font Css -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:,">
+    <!--fontawesome-->
+    <script src="https://kit.fontawesome.com/946dc76c2e.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background-image: url("https://cdn.pixabay.com/photo/2015/04/10/17/09/bokeh-716587_1280.jpg");
+            background-size: cover;
+            font-family: 'Nanum Myeongjo', serif;
+        }
+    </style>
+</head>
+<body>
+<div class="container-6 text-center" style="margin-top: 100px; margin-left: 400px; margin-right: 400px;">
+    <h3 style="margin-right: 20px; color:white; font-size:72px;font-weight: bolder"><i class="fa-solid fa-link"></i> 단축
+        URL 입력</h3>
+    <br>
+    <br>
+    <br>
+    <form action="#" th:action="@{/uri/inspection}" th:object="${urlDto}" method="post">
+        <div class="row justify-content-md-center"
+             style="background-color: rgba( 255, 255, 255, 0.5 ); height: 120px; border-radius: 40px 40px 40px 40px;
+             box-shadow: 3px 5px 5px 3px gray;">
+            <div class="col-md-8" style="margin-top: auto; margin-bottom: auto;">
+                <input class="form-control form-control-lg" type="text" th:field="*{requestURI}"
+                       placeholder="단축할 URL을 입력해주세요." style="font-weight: bolder" aria-label=".form-control-lg example">
+                <div class="field-error" th:errors="*{requestURI}">URL 오류</div>
+            </div>
+            <div class="col-6 col-md-4" style="margin-top: auto; margin-bottom: auto;">
+                <button type="submit" class="btn btn-dark"
+                        style="width:120px;height:60px;font-size: 22px;font-weight: bolder">단축하기
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <br>
+    <br>
+    <br>
+    <div th:if="${shortUrl}!=null" class="row justify-content-md-center"
+         style="background-color: rgba( 255, 255, 255, 0.5 ); height: 120px; border-radius: 40px 40px 40px 40px;
+        box-shadow: 3px 5px 5px 3px gray;">
+        <div class="col-md-8" style="margin-top: auto; margin-bottom: auto;">
+            <h4 style="color:red; font-weight: bold; text-align: left">요약된 링크입니다</h4>
+            <input class="form-control form-control-lg" type="text" id="location" th:value="${shortUrl}"
+                   aria-label=".form-control-lg example" style="font-weight: bolder">
+        </div>
+        <div class="col-6 col-md-4" style="margin-top: auto; margin-bottom: auto;">
+            <button type="button" class="btn btn-dark"
+                    style="width:120px;height:60px;font-size: 22px;font-weight: bolder" onclick="clip()">복사하기
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap JS -->
+<!--<script src="../static/js/bootstrap.js"></script>-->
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    function clip() {
+        navigator.clipboard.writeText(document.getElementById('location').value).then(() => {
+            alert("URL이 복사되었습니다.")
+        });
+    }
+</script>
+</body>
+</html>

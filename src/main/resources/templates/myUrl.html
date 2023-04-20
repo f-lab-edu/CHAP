@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="data:,">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>MyUrl 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
+    <link href="css/styles.css" rel="stylesheet" th:href="@{/css/myUrl/styles.css}"/>
+    <link href="css/styles.css" rel="stylesheet" th:href="@{/css/myUrl/myUrl.css}"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed sb-sidenav-toggled">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="index.html" th:href="@{/}">단축 URL 만들러가기</a>
+    <!-- Sidebar Toggle-->
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
+                   aria-describedby="btnNavbarSearch"/>
+            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#!" th:href="@{/myUrl}">MyUrl</a></li>
+                <li><a class="dropdown-item" href="#!" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">내가 만든 URL</h1>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        회원님이 작성하신 URL은 아래와 같습니다.
+                    </div>
+                </div>
+
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        MyURL
+                    </div>
+
+                    <form class="row g-3" th:action method="get">
+                        <div th:if="${isInvalidTime==true}">
+                            <p class="field-error" th:text="#{invalid.time}">글로벌 오류 메시지</p>
+                        </div>
+
+                        <div class="col-md-3">
+                            <p class="mb-0">검색어를 입력해주세요</p>
+                            <input type="text" class="form-control" id="searchWord" name="searchWord"
+                                   th:value="${searchCondition.searchWord}">
+                        </div>
+                        <div class="col-md-2">
+                            <p class="mb-0">검색시작기간</p>
+                            <input type="date" class="form-control" placeholder="검색시작일" id="startDate" name="startDate"
+                                   th:value="${searchCondition.startDate}">
+                        </div>
+                        <div class="col-md-2">
+                            <p class="mb-0">검색종료기간</p>
+                            <input type="date" class="form-control" placeholder="검색시작종료" id="endDate" name="endDate"
+                                   th:value="${searchCondition.endDate}">
+                        </div>
+                        <div class="col-md-1">
+                            <p class="mb-0">정렬상태</p>
+                            <select id="isAsc" name="isAsc" class="form-select" th:field="${pageRequest.isAsc}">
+                                <option value="0">최근순</option>
+                                <option value="1">오래된순</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <p class="mb-0">페이징 사이즈</p>
+                            <select id="size" name="size" class="form-select" th:field="${pageRequest.size}">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-auto" style="margin-top: 2%">
+                            <button type="submit" class="btn btn-primary">검색</button>
+                        </div>
+                    </form>
+
+                    <div class="row"><!--row1-->
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">생성날짜</th>
+                                    <th scope="col">본래 URL 주소</th>
+                                    <th scope="col">단축 URL 주소</th>
+                                    <th scope="col">메타 데이터</th>
+                                    <th scope="col">조회수</th>
+                                    <th scope="col">편집</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="urlInfo: ${urlInfoPage.dtoList}">
+                                    <td th:text="${urlInfo.urlId}"></td>
+                                    <td th:text="${urlInfo.createdDate}"></td>
+                                    <td style="width: 800px;height: auto;word-break:break-all;"
+                                        th:text="${urlInfo.originalUrl}"></td>
+                                    <td><a th:href="@{/{shortsUrl} (shortsUrl=${urlInfo.shortsUrl})}"
+                                           style="color: black">[[${@environment.getProperty('domain-name')}]][[${urlInfo.shortsUrl}]]</a>
+                                    </td>
+                                    <td th:text="${urlInfo.clickCount}"></td>
+                                    <td th:text="${urlInfo.clickCount}"></td>
+                                    <td>
+                                        <button class="btn btn-outline-danger btn-sm rounded-pill"
+                                                th:urlId="${urlInfo.urlId}"
+                                                onclick="deleteUrl(this.getAttribute('urlId'))">삭제
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-end"><!--row2--->
+                        <div class="col col-lg-auto">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center" th:if="${urlInfoPage.isNotEmpty()}">
+
+                                    <li th:classappend="${urlInfoPage.first} ? 'disabled'" class="page-item">
+                                        <a class="page-link"
+                                           th:href="@{${#httpServletRequest.getRequestURL()}(searchWord=${searchCondition.getSearchWord()}, page=1, size=${urlInfoPage.getSize()}, isAsc=${urlInfoPage.isAsc() ? 1 : 0})}">
+                                            <span>&laquo;</span>
+                                            <span class="sr-only">First</span>
+                                        </a>
+
+
+                                    <li th:classappend="${urlInfoPage.first} ? 'disabled'" class="page-item">
+                                        <a class="page-link"
+                                           th:if="${urlInfoPage.first}" th:href="'#'" aria-label="Previous">
+                                            <span aria-hidden="true"><</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="page-link"
+                                           th:unless="${urlInfoPage.first}"
+                                           th:href="@{${#httpServletRequest.getRequestURL()}(searchWord=${searchCondition.getSearchWord()}, page=${urlInfoPage.start}-${urlInfoPage.pageSize}, size=${urlInfoPage.getSize()}, isAsc=${urlInfoPage.isAsc() ? 1 : 0})}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true"><</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+
+
+                                    <li class="page-item" th:each="page : ${urlInfoPage.getPageList()}"
+                                        th:classappend="${page == urlInfoPage.page} ? 'active'">
+                                        <a class="page-link" th:text="${page}"
+                                           th:href="@{${#httpServletRequest.getRequestURL()}(searchWord=${searchCondition.getSearchWord()}, page=${page}, size=${urlInfoPage.getSize()}, isAsc=${urlInfoPage.isAsc() ? 1 : 0})}">
+                                        </a>
+                                    </li>
+
+
+                                    <li th:classappend="${urlInfoPage.last} ? 'disabled'" class="page-item">
+                                        <a class="page-link"
+                                           th:if="${urlInfoPage.last}" th:href="'#'" aria-label="Next">
+                                            <span aria-hidden="true">&gt;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                        <a class="page-link"
+                                           th:unless="${urlInfoPage.last}"
+                                           th:href="@{${#httpServletRequest.getRequestURL()}(searchWord=${searchCondition.getSearchWord()}, page=${urlInfoPage.start}+${urlInfoPage.pageSize}, size=${urlInfoPage.getSize()}, isAsc=${urlInfoPage.isAsc() ? 1 : 0})}"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&gt;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+
+                                    <li th:classappend=" ${urlInfoPage.last} ? 'disabled'" class="page-item">
+                                        <a class="page-link"
+                                           th:href="@{${#httpServletRequest.getRequestURL()}(searchWord=${searchCondition.getSearchWord()}, page=${urlInfoPage.totalPages}, size=${urlInfoPage.getSize()}, isAsc=${urlInfoPage.isAsc() ? 1 : 0})}">
+                                            <span>&raquo;</span>
+                                            <span class="sr-only">Last</span>
+                                        </a>
+                                    </li>
+
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div><!--row2끝-->
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script>
+    function deleteUrl(urlId)
+    {
+        if (!confirm("정말 삭제하시겠습니까?")) return;
+        fetch("/myUrl/delete/" + urlId, {method: "POST"})
+            .then((resp) => {
+                if (resp.status === 302) {
+                    alert('삭제 완료되었습니다.');
+                    location.href="/myUrl";
+                } else {
+                    resp.text().then((t) => alert(t));
+                }
+            })
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="../static/js/myUrl/scripts.js" th:src="@{/js/myUrl/scripts.js}"></script>
+<script src="../static/js/myUrl/datatables-simple-demo.js" th:src="@{/js/myUrl/datatables-simple-demo.js}"></script>
+</body>
+</html>

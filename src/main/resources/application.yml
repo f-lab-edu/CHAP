@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local:
+        - local #로컬환경
+      dev:
+        - dev   #개발환경
+
