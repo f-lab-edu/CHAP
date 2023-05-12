@@ -1,0 +1,28 @@
+# dev 설정
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  datasource:
+    url:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username:
+    password:
+
+jwt:
+  header: Authorization
+  secret:
+  token-validity-in-seconds:
+
+domain-name:
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type: trace
+    com.wook.chap: debug

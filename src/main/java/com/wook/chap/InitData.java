@@ -283,11 +283,17 @@ public class InitData {
 
         @Transactional
         void destroy() {
-            log.debug("destroy 작업 시작");
-            InitService.urls.forEach(entity->urlService.deleteUrlById(entity.getId()));
-            InitService.memberAuthorities.forEach(entity->memberService.deleteMemberAuthorityById(entity.getId()));
-            InitService.members.forEach(entity->memberService.deleteMemberById(entity.getId()));
-            log.debug("destroy 작업 종료");
+            try {
+                log.debug("destroy 작업 시작");
+                InitService.urls.forEach(entity->urlService.deleteUrlById(entity.getId()));
+                InitService.memberAuthorities.forEach(entity->memberService.deleteMemberAuthorityById(entity.getId()));
+                InitService.members.forEach(entity->memberService.deleteMemberById(entity.getId()));
+                log.debug("destroy 작업 종료");
+            } catch (Exception e) {
+                log.debug("Destroy 에러가 발생했습니다");
+                e.printStackTrace();
+                e.getMessage();
+            }
         }
 
     }

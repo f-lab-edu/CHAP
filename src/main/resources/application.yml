@@ -6,4 +6,7 @@ spring:
         - local #로컬환경
       dev:
         - dev   #개발환경
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 
