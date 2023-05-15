@@ -29,7 +29,7 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.debug("Filter 처리 --------------------------------------------");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        Arrays.stream(httpServletRequest.getCookies()).forEach(cookie -> {log.debug("쿠키 종류 : {}",cookie.getValue());});
+//        Arrays.stream(httpServletRequest.getCookies()).forEach(cookie -> {log.debug("쿠키 종류 : {}",cookie.getValue());});
         String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
