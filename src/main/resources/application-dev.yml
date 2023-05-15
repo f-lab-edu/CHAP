@@ -1,25 +1,32 @@
 # dev 설정
 spring:
+  messages:
+    basename: errors
   config:
     activate:
       on-profile: dev
 
   jpa:
+
     hibernate:
       ddl-auto: none
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 
   datasource:
-    url:
+    url: jdbc:mysql://27.96.130.23:3306/devdb
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username:
-    password:
+    username: admin
+    password: keontae0925
+
+
 
 jwt:
   header: Authorization
-  secret:
-  token-validity-in-seconds:
+  secret: a2lta2FuZ3dvb2stc29sby1wcm9qZWN0LXNlcnZlci1jb29raWUta2V5LWtpbWthbmd3b29rLXNvbG8tcHJvamVjdC1zZXJ2ZXItY29va2llLWtleQ==
+  token-validity-in-seconds: 90000
 
-domain-name:
+domain-name: http://localhost:8080/
 
 logging:
   level:
