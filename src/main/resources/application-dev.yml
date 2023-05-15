@@ -14,16 +14,16 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
   datasource:
-    url: jdbc:mysql://27.96.130.23:3306/devdb
+    url: ENC(duvku3piSGH7VpunAi+sdw3b46xAuppGEX76cw+fHs3Z0LL0D+vBE21bM5y45qUa)
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
-    password: keontae0925
+    username: ENC(DZThzLRqF2532IxpEx8UZA==)
+    password: ENC(LEKRze5h9FeNDSmC+guKaBl/bgXsbs0Y)
 
 
 
 jwt:
   header: Authorization
-  secret: a2lta2FuZ3dvb2stc29sby1wcm9qZWN0LXNlcnZlci1jb29raWUta2V5LWtpbWthbmd3b29rLXNvbG8tcHJvamVjdC1zZXJ2ZXItY29va2llLWtleQ==
+  secret: ENC(2YLGTmWV3joqknjXPmvgONUJGnOZrL9QP7vWZEWHcWSHOlykbItZwv29opxCS4fjUcvuoo7MJqIf1MfVzOAxV39AP5rkoSlQtb4zZC676ZhNnYzXDyo0SEESHq7Ht1vJghjp1YipxAmFk3Er65ns9W+UZUR7OaY+BH0jdj7VgE4=)
   token-validity-in-seconds: 90000
 
 domain-name: http://localhost:8080/
