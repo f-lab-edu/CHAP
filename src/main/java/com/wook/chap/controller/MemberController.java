@@ -25,7 +25,7 @@ public class MemberController {
     public String signUpPage(Model model) {
         SignUpDto signUpDto = new SignUpDto();
         model.addAttribute("signUpDto", signUpDto);
-        return "/form/signUpForm";
+        return "form/signUpForm";
     }
 
     @PostMapping("/signUp")
@@ -37,14 +37,14 @@ public class MemberController {
             log.debug("{}",bindingResult.getAllErrors());
             log.debug("에러 갯수 : {}",bindingResult.getAllErrors().size());
 
-            return "/form/signUpForm";
+            return "form/signUpForm";
         }
 
         /**
          * 비밀번호 검증 로직 불통과 시 뷰로 전달
          */
         if (!signUpDto.validatePassword(bindingResult)) {
-            return "/form/signUpForm";
+            return "form/signUpForm";
         }
 
         try {
@@ -55,7 +55,7 @@ public class MemberController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "/form/signUpForm";
+            return "form/signUpForm";
         }
 
         return "redirect:/login";
