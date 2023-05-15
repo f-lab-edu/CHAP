@@ -37,7 +37,7 @@ public class LoginController {
     public String loginPage(Model model) {
         LoginDto loginDto = new LoginDto();
         model.addAttribute("loginDto", loginDto);
-        return "/form/loginForm";
+        return "form/loginForm";
     }
 
     @PostMapping("/login/authenticate")
@@ -49,7 +49,7 @@ public class LoginController {
             log.debug("{}",bindingResult.getAllErrors());
             log.debug("에러 갯수 : {}",bindingResult.getAllErrors().size());
 
-            return "/form/loginForm";
+            return "form/loginForm";
         }
 
         UsernamePasswordAuthenticationToken authenticationToken
@@ -71,7 +71,7 @@ public class LoginController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "/form/loginForm";
+            return "form/loginForm";
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
